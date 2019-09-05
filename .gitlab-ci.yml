@@ -13,4 +13,4 @@ test-app:
   dependencies:
     - install-dependencies
   script:
-    - python3 -m unittest discover project/tests
+    - nose2

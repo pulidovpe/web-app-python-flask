@@ -1,0 +1,23 @@
+image: python:3.7.4
+stages:
+  - install
+  - test
+
+install-dependencies:
+  stage: install
+  script:
+    - pip3 install -q -r requirements.txt
+  artifacts:
+    expire_in: 1hr
+    paths:
+      - public
+  cache:
+    paths:
+      - public
+
+test-app:
+  stage: test
+  dependencies:
+    - install-dependencies
+  script:
+    - python3 -m unittest discover project/tests

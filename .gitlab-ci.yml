@@ -1,16 +1,16 @@
 image: python:3.7.4
 stages:
-  - install
   - test
 
-install-dependencies:
-  stage: install
-  script:
-    - pip3 install -q -r requirements.txt
+before_script:
+  - python3 --version
+  - pip3 install -r requirements.txt
 
 test-app:
   stage: test
-  dependencies:
-    - install-dependencies
   script:
-    - nose2
+    - pwd
+    - ls -l
+    - export PYTHONPATH="$PYTHONPATH:."
+    - python3 -c "import sys;print(sys.path)"
+    - nose2 -v --with-coverage project.tests.test_basic

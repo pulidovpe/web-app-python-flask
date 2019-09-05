@@ -2,6 +2,8 @@
 
 import os
 import unittest
+import json
+from urllib.parse import urlencode
 
 from project import app
 
@@ -31,6 +33,22 @@ class BasicTests(unittest.TestCase):
    def test_main_page(self):
       response = self.app.get('/', follow_redirects=True)
       self.assertEqual(response.status_code, 200)
+   
+   def test_about_page(self):
+      response = self.app.get('/about', follow_redirects=True)
+      self.assertEqual(response.status_code, 200)
+
+   def test_plus_one(self):
+      self.dato = { 'x': 2 }
+      response = self.app.get('/plus_one' + '?' + urlencode(self.dato))
+      res = json.loads(response.data.decode('utf-8'))
+      assert res['x'] == 3
+   
+   def test_square(self):
+      self.dato = { 'x': 2 }
+      response = self.app.get('/square' + '?' + urlencode(self.dato))
+      res = json.loads(response.data.decode('utf-8'))
+      assert res['x'] == 4
 
 if __name__ == "__main__":
    unittest.main()

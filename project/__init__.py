@@ -2,7 +2,8 @@
 #### imports ####
 #################
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+import json
 
 ################
 #### config ####
@@ -21,6 +22,17 @@ def home():
 @app.route('/about')
 def about():
    return render_template('about.html')
+
+
+@app.route('/plus_one')
+def plus_one():
+   x = int(request.args.get('x', 1))
+   return json.dumps({'x': x + 1})
+
+@app.route('/square')
+def square():
+   x = int(request.args.get('x', 1))
+   return json.dumps({'x': x * x})
 
 ############################
 #### custom error pages ####
